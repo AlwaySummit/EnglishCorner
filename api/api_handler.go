@@ -40,6 +40,7 @@ func main() {
 	//cgi router
 	Router.HandleFunc("/", GenHandler(CheckoutToken))
 	Router.HandleFunc("/hello", GenHandler(HelloServer))
+	Router.HandleFunc("/attenders", GenHandler(AttendersHandler))
 	svr := http.Server{
 		Addr:         ":80",
 		ReadTimeout:  3 * time.Second,

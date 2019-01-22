@@ -12,6 +12,17 @@ func HelloServer(query url.Values, body []byte, rsp *Rsp) {
 	rsp.Data = "hello, world!\n"
 }
 
+func AttendersHandler(query url.Values, body []byte, rsp *Rsp) {
+	//retrieve data from kv
+	//TODO
+
+	//return date
+	rsp.Status = 200
+	rsp.Msg ="Success"
+	rsp.Data = "Patrick"
+	return
+}
+
 func CheckoutToken(query url.Values, body []byte, rsp *Rsp) {
 	// token
 	var token string = "iwuqing"
