@@ -1,4 +1,4 @@
-package main
+package services
 
 import (
 	"encoding/base64"
@@ -6,16 +6,17 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/sdk/endpoints"
 	"github.com/aliyun/alibaba-cloud-sdk-go/services/dybaseapi"
 	"github.com/aliyun/alibaba-cloud-sdk-go/services/dybaseapi/mns"
+	"ec/english-corner/common"
 )
 
 func main() {
-	endpoints.AddEndpointMapping(REGION_ID, PRODUCT_ID, SMS_DOMAIN)
+	endpoints.AddEndpointMapping(common.REGION_ID, common.PRODUCT_ID, common.SMS_DOMAIN)
 
 	// 创建client实例
 	client, err := dybaseapi.NewClientWithAccessKey(
-		REGION_ID,           // 您的可用区ID
-		ACCESS_KEY,         // 您的Access Key ID
-		ACCESS_SECRET)     // 您的Access Key Secret
+		common.REGION_ID,           // 您的可用区ID
+		common.ACCESS_KEY,         // 您的Access Key ID
+		common.ACCESS_SECRET)     // 您的Access Key Secret
 	if err != nil {
 		// 异常处理
 		panic(err)
@@ -27,8 +28,8 @@ func main() {
 		if token == nil  {
 			// 创建API请求并设置参数
 			request := dybaseapi.CreateQueryTokenForMnsQueueRequest()
-			request.MessageType = SMS_UP_MESSAGE_TYPE
-			request.QueueName = SMS_QUEUE_NAME
+			request.MessageType = common.SMS_UP_MESSAGE_TYPE
+			request.QueueName = common.SMS_QUEUE_NAME
 			// 发起请求并处理异常
 			response, err := client.QueryTokenForMnsQueue(request)
 			if err != nil {
@@ -40,7 +41,7 @@ func main() {
 		}
 
 		mnsClient, err := mns.NewClientWithStsToken(
-			REGION_ID,
+			common.REGION_ID,
 			token.AccessKeyId,
 			token.AccessKeySecret,
 			token.SecurityToken,
@@ -51,8 +52,8 @@ func main() {
 		}
 
 		mnsRequest := mns.CreateBatchReceiveMessageRequest()
-		mnsRequest.Domain = MNS_DOMAIN
-		mnsRequest.QueueName = SMS_QUEUE_NAME
+		mnsRequest.Domain = common.MNS_DOMAIN
+		mnsRequest.QueueName = common.SMS_QUEUE_NAME
 		mnsRequest.NumOfMessages = "10"
 		mnsRequest.WaitSeconds = "5"
 
@@ -74,8 +75,8 @@ func main() {
 		}
 		if len(receiptHandles) > 0 {
 			mnsDeleteRequest := mns.CreateBatchDeleteMessageRequest()
-			mnsDeleteRequest.Domain = MNS_DOMAIN
-			mnsDeleteRequest.QueueName = SMS_QUEUE_NAME
+			mnsDeleteRequest.Domain = common.MNS_DOMAIN
+			mnsDeleteRequest.QueueName = common.SMS_QUEUE_NAME
 			mnsDeleteRequest.SetReceiptHandles(receiptHandles)
 			//_, err = mnsClient.BatchDeleteMessage(mnsDeleteRequest) // 取消注释将删除队列中的消息
 			if err != nil {

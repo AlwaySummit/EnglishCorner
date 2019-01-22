@@ -1,4 +1,4 @@
-package main
+package services
 
 import (
 	"fmt"
@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"time"
+	"ec/english-corner/common"
 )
 
 var currentTimeUnix = time.Now().Unix() * 1000
@@ -104,7 +105,7 @@ func getAttenders(url string) []string {
 }
 
 func sendSMS(numbers string, signName string, templateParam string) {
-	client, err := sdk.NewClientWithAccessKey(DEFAULT_REGION_ID, ACCESS_KEY, ACCESS_SECRET)
+	client, err := sdk.NewClientWithAccessKey(common.DEFAULT_REGION_ID, common.ACCESS_KEY, common.ACCESS_SECRET)
 	if err != nil {
 		fmt.Printf("[%s] Error when get client, err: %+v", logTimeStr, err)
 		panic(err)
@@ -112,12 +113,12 @@ func sendSMS(numbers string, signName string, templateParam string) {
 
 	request := requests.NewCommonRequest()
 	request.Method = http.MethodPost
-	request.Domain = SMS_DOMAIN
-	request.Version = VERSION
-	request.ApiName = API_NAME
+	request.Domain = common.SMS_DOMAIN
+	request.Version = common.VERSION
+	request.ApiName = common.API_NAME
 	request.QueryParams["PhoneNumberJson"] = numbers
 	request.QueryParams["SignNameJson"] = signName
-	request.QueryParams["TemplateCode"] = TEMPLATE_CODE
+	request.QueryParams["TemplateCode"] = common.TEMPLATE_CODE
 	request.QueryParams["TemplateParamJson"] = templateParam
 
 	response, err := client.ProcessCommonRequest(request)
@@ -129,7 +130,7 @@ func sendSMS(numbers string, signName string, templateParam string) {
 }
 
 func constructSignName(names []string) (signName string) {
-	baseSignName := SIGN_NAME
+	baseSignName := common.SIGN_NAME
 	signNameArr := []string{}
 	for _, _ = range names {
 		signNameArr = append(signNameArr, baseSignName)
