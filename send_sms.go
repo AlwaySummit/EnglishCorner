@@ -15,18 +15,6 @@ var currentTime = time.Unix(currentTimeUnix/1000, 0)
 var logTimeStr = currentTime.Format("2006-01-02 03:04:05 PM")
 var attendTimeStr = currentTime.Format("2006-01-02")
 
-const (
-	URL           = "https://apicloud.mob.com/ucache/get?key=29c5b87f0ddca&table=englishcorner&k=cmVzdWx0 "
-	REGION_ID     = "default"
-	ACCESS_KEY    = "LTAIoBHDmXUOAOx2"
-	ACCESS_SECRET = "dFrGaSKS0Lpn3L2xXqGB9NdHP4mePQ"
-	SMS_DOMAIN    = "dysmsapi.aliyuncs.com"
-	API_NAME      = "SendBatchSms"
-	VERSION       = "2017-05-25"
-	SIGN_NAME     = "思爱普中国有限公司"
-	TEMPLATE_CODE = "SMS_156275687"
-)
-
 var contactInfo = map[string]string{
 	"Craig":     "18966808305",
 	"Patrick":   "15829603595",
@@ -116,7 +104,7 @@ func getAttenders(url string) []string {
 }
 
 func sendSMS(numbers string, signName string, templateParam string) {
-	client, err := sdk.NewClientWithAccessKey(REGION_ID, ACCESS_KEY, ACCESS_SECRET)
+	client, err := sdk.NewClientWithAccessKey(DEFAULT_REGION_ID, ACCESS_KEY, ACCESS_SECRET)
 	if err != nil {
 		fmt.Printf("[%s] Error when get client, err: %+v", logTimeStr, err)
 		panic(err)
