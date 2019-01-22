@@ -1,4 +1,4 @@
-package main
+package common
 
 const (
 	URL                 = "https://apicloud.mob.com/ucache/get?key=29c5b87f0ddca&table=englishcorner&k=cmVzdWx0 "
