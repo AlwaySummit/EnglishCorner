@@ -5,7 +5,8 @@
 1. Weichat Official Account (Morphology)
 2. Customer friendly UI
 3. Each button leading to a service UI
-![image](http://github.com/AlwaySummit/EnglishCorner/master/product.PNG)
+4. User interface as follow:
+![image](https://github.com/AlwaySummit/EnglishCorner/blob/master/product.PNG)
 
 - Prodcut Intro
 
