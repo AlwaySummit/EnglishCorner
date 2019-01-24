@@ -13,7 +13,7 @@ func HelloServer(query url.Values, body []byte, rsp *Rsp) {
 }
 
 func SmsHandler(query url.Values, body []byte, rsp *Rsp) {
-	SendSms()
+	//SendSms()
 	rsp.Data = "hello, world!\n"
 }
 

@@ -5,10 +5,11 @@ import (
 )
 
 type AttenderInfo struct {
-	Members []string `json:"members"`
-	Date    int64    `json:"date"`
-	WeekDay string   `json:"day"`
-	Words   []string `json:"words"`
+	Members   []string `json:"members"`
+	Timestamp int64    `json:"timestamp"`
+	Date      string   `json:"date"`
+	WeekDay   string   `json:"day"`
+	Words     []string `json:"words"`
 }
 
 type AttenderResp struct {
@@ -49,7 +50,7 @@ func GetAttenderResults() (attenderResp AttenderResp) {
 	allDates := GetAllDates()
 	dayOfWeek := []string{}
 	participators := [][]string{}
-	timestamps := []time.Time{}
+	occurTimeObj := []time.Time{}
 	var latestDate int64
 	flag := true
 	var j = 0
@@ -63,28 +64,29 @@ func GetAttenderResults() (attenderResp AttenderResp) {
 		if (currentOccurTime.Month() != nextOfNextOccurTime.Month()) {
 			participators = append(participators, allHands, allHands)
 			dayOfWeek = append(dayOfWeek, currentOccurDayOfWeek, nextOccurDayOfWeek)
-			timestamps = append(timestamps, currentOccurTime, nextOccurTime)
+			occurTimeObj = append(occurTimeObj, currentOccurTime, nextOccurTime)
 			i = i + 1
 			continue
 		}
 
-		if currentOccurTime.YearDay() > currentTime.YearDay() && flag {
+		if currentOccurTime.YearDay() >= currentTime.YearDay() && flag {
 			latestDate = currentOccurTime.Unix()
 			flag = false
 		}
 		participators = append(participators, attenders[j])
 		dayOfWeek = append(dayOfWeek, currentOccurDayOfWeek)
-		timestamps = append(timestamps, currentOccurTime)
+		occurTimeObj = append(occurTimeObj, currentOccurTime)
 		j++
 
 	}
 
 	results := AttenderInfo{}
 	dateMembers := []AttenderInfo{}
-	for k, _ := range timestamps {
-		results.Date = timestamps[k].Unix()
+	for k, _ := range occurTimeObj {
+		results.Timestamp = occurTimeObj[k].Unix()
+		results.Date = time.Unix(results.Timestamp, 0).Format("2006-01-02")
 		results.Members = participators[k]
-		results.WeekDay = timestamps[k].Weekday().String()
+		results.WeekDay = occurTimeObj[k].Weekday().String()
 		dateMembers = append(dateMembers, results)
 	}
 	attenderResp.DateMember = dateMembers

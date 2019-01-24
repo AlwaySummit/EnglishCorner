@@ -24,7 +24,7 @@ func ResolveInfo(attenderResp AttenderResp) ([]string) {
 	}
 
 	for k, v := range attInfo {
-		if currentTimeUnix > attInfo[k].Date {
+		if currentTimeUnix > attInfo[k].Timestamp {
 			continue
 		} else {
 			// All hands
