@@ -10,7 +10,6 @@
 
 ![image](https://github.com/AlwaySummit/EnglishCorner/blob/master/product.PNG)
 
-- Prodcut Intro
 
 
 ## Service NO.1 -Automation Schedule System
