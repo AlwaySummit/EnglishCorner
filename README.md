@@ -2,10 +2,10 @@
 - Product Purpose
 
 - Prodcut Prototype
->> Weichat Official Account (Morphology)
->> Customer friendly UI
->> Each button leading to a service UI
-![image](http://github.com/AlwaySummit/EnglishCorner/product.PNG)
+1. Weichat Official Account (Morphology)
+2. Customer friendly UI
+3. Each button leading to a service UI
+![image](http://github.com/AlwaySummit/EnglishCorner/master/product.PNG)
 
 - Prodcut Intro
 
