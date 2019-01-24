@@ -1,21 +1,25 @@
-# EnglishCorner Service 
--only for EG IT project
+# EnglishCorner Service -only for EG IT project
+- Product Purpose
 
-## Service NO.1 -Schedule and Vocabulary
+- Prodcut Prototype
+
+- Prodcut Intro
+
+
+## Service NO.1 -Automation Schedule System
 
 Main Features:
 1. Make the class schedule based on user-defined rules.
 2. Customer friendly Weichat miniAPP
 3. Highlight attending people according to date. 
-4. Record the words of each session in APP.
+4. Schedule SMS Notification
 
-
-## Service NO.2 -Schedule SMS Notification
+## Service NO.2 -Vocabulary Learning Center
 
 Main Features:
-1.
-2.
-3.
+1. Editable vocabulary dictionary
+2. Vocabulary pracitice based on user-defined rule. (e.g. The fixed time step and number of words tested)
+3. Translation reminder(e.g. When people touch teh word, it will show the Chinese meaning and give a example sentence)
 
 ## Service NO.3 -Speaker Rating System
 
