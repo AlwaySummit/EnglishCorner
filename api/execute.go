@@ -12,14 +12,19 @@ func HelloServer(query url.Values, body []byte, rsp *Rsp) {
 	rsp.Data = "hello, world!\n"
 }
 
+func SmsHandler(query url.Values, body []byte, rsp *Rsp) {
+	SendSms()
+	rsp.Data = "hello, world!\n"
+}
+
 func AttendersHandler(query url.Values, body []byte, rsp *Rsp) {
 	//retrieve data from kv
 	//TODO
 
 	//return date
 	rsp.Status = 200
-	rsp.Msg ="Success"
-	rsp.Data = "Patrick"
+	rsp.Msg = "Success"
+	rsp.Data = GetAttenderResults()
 	return
 }
 
