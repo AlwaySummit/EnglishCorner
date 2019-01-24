@@ -1,6 +1,6 @@
 # EnglishCorner Service -only for EG IT project
 - Product Purpose
-
+  Nowadays, the changes triggered by digital technology have swept every region, every industry and every business. For trandition English train, the mode is that teacher give a lecture in front of students, after that, students show feedbacks and take lots of quiz. But we should not ignore the new gold, data, proceesed by each step of English train. The data can reflect change of every student's learning status and furthermore it will make busniness run simple, trainee more easier. Therefore, we long for empowering the business by IT technology to all train organization.
 - Prodcut Prototype
 1. Weichat Official Account (Morphology)
 2. Customer friendly UI
