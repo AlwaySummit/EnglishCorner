@@ -2,6 +2,10 @@
 - Product Purpose
 
 - Prodcut Prototype
+> Weichat Official Account (Morphology)
+> Customer friendly UI
+> Each button leading to a service UI
+
 
 - Prodcut Intro
 
@@ -10,9 +14,8 @@
 
 Main Features:
 1. Make the class schedule based on user-defined rules.
-2. Customer friendly Weichat miniAPP
-3. Highlight attending people according to date. 
-4. Schedule SMS Notification
+2. Highlight attending people according to date. 
+3. Schedule SMS Notification
 
 ## Service NO.2 -Vocabulary Learning Center
 
