@@ -41,7 +41,9 @@ func main() {
 	Router.HandleFunc("/", GenHandler(CheckoutToken))
 	Router.HandleFunc("/hello", GenHandler(HelloServer))
 	Router.HandleFunc("/attenders", GenHandler(AttendersHandler))
+
 	Router.PathPrefix("/englishcorner/").Handler(http.StripPrefix("/englishcorner/",http.FileServer(http.Dir("englishcorner"))))
+
 	svr := http.Server{
 		Addr:         ":80",
 		ReadTimeout:  3 * time.Second,

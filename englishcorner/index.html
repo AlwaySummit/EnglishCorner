@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script src="englishcorner/js/mui.js"></script>
+		<script src="englishcorner/js/my.js"></script>
+		<script src="englishcornerjs/template-web.js"></script>
+		<link href="englishcorner/css/mui.css" rel="stylesheet" />
+		<link href="englishcorner/css/my.css" rel="stylesheet" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+	</head>
+	<body>
+	</body>
+	<header class="mui-bar mui-bar-nav">
+		<h1 class="mui-title">English Corner</h1>
+	</header>
+	<div id="content" class="mui-content">
+
+	</div>
+	</div>
+</html>
+
+<body>
+    <div id="content"></div>
+
+    <script src="js/template-web.js"></script>
+    <script id="englishcorner" type="text/html">
+        <div class="mui-row">
+			<%for(i=0;i<content.length;i++){%>
+        	<div class="mui-col-sm-12 mui-col-xs-12">
+        		<li class="mui-table-view-cell mui-collapse">
+        			<a class="mui-navigate-right mui-icon mui-icon-flag mya">
+        				<%=content[i].date%> <%=content[i].day%>
+        			</a>
+        			<div class="mui-collapse-content">
+        					<ul class="mytable mui-table-view">
+        						<li class="mui-table-view-cell">members:
+									<%for(j=0;j<content[i].members.length;j++){%>
+									<%=content[i].members[j]%> 
+									<%}%>
+								</li>
+        						<li class="mui-table-view-cell">words: <%=content[i].words%></li>
+        					</ul>
+        			</div>
+        		</li>
+        	</div>
+			<%}%>
+        </div>
+    </script>
+
+    <script>
+
+
+
+	mui.ajax('http://english_corner.aliondemand.org/attenders',{
+// 		data:{
+// 			username:'username',
+// 			password:'password'
+// 		},
+		dataType:'json',//服务器返回json格式数据
+		type:'get',//HTTP请求类型
+		timeout:10000,//超时时间设置为10秒；
+		headers:{'Content-Type':'application/json'},	              
+		success:function(res){
+			console.log(res);
+			var data = {
+				content : res.data.date_member,
+			}
+			//服务器返回响应，根据响应结果，分析是否登录成功；
+			// ...
+			console.log(data)
+			var html = template('englishcorner',data);
+			document.getElementById("content").innerHTML = html;
+			
+			var index = -1
+			for(var i=0;i<data.content.length;i++){
+				if(data.content[i].timestamp == res.data.latest_date){
+					index = i
+					break
+				}
+			}
+			mui(".mui-table-view-cell.mui-collapse")[index].classList.add("mui-active")
+			console.log(mui(".mui-col-sm-12.mui-col-xs-12")[index].classList)
+		},
+		error:function(xhr,type,errorThrown){
+			//异常处理；
+			console.log(type);
+		}
+	});
+	
+	
+	
+//         var data = {
+//             content : [
+//                 {
+//                     date: "2018-01-23",
+// 					day: "Wed",
+//                     members: ["a","b","c","d"],
+// 					words: "haha,xixi,gege"
+//                 },
+//                 {
+//                     date: "2018-01-45",
+// 					day: "Wed",
+//                     members: ["a","hhh","c","123"],
+// 					words: "haha,xixi,gege"
+//                 },
+// 				{
+// 				    date: "2018-01-45",
+// 					day: "Mon",
+// 				    members: ["a","hhh","c","123"],
+// 					words: "haha,xixi,gege"
+// 				},
+// 				{
+// 				    date: "2018-01-45",
+// 					day: "Sun",
+// 				    members: ["a","hhh","c","123"],
+// 					words: "haha,xixi,gege"
+// 				},
+//             ]
+//         };
+// 		console.log(data)
+
+    </script>
+</body>
