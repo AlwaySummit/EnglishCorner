@@ -7,33 +7,38 @@ import (
 	"github.com/aliyun/alibaba-cloud-sdk-go/services/dybaseapi/mns"
 	"fmt"
 	"encoding/base64"
+	"encoding/json"
 )
 
-func main() {
-	endpoints.AddEndpointMapping(common.Credentials.Region, common.PRODUCT_ID, common.SMS_DOMAIN)
+type QueueResp struct {
+	PhoneNumber string `json:"phone_number"`
+	Content     string `json:"content"`
+	DestCode    string `json:"dest_code"`
+	SendTime    string `json:"send_time"`
+	SignName    string `json:"sign_name"`
+	SequenceId  int64  `json:"sequence_id"`
+}
 
-	// 创建client实例
+func QueueWatcher() (msgArr []string) {
+	endpoints.AddEndpointMapping(common.Credentials.Region, common.PRODUCT_ID, common.SMS_BASE_DOMAIN)
+
 	client, err := dybaseapi.NewClientWithAccessKey(
-		common.Credentials.Region,           // 您的可用区ID
-		common.Credentials.AccessKey,         // 您的Access Key ID
-		common.Credentials.AccessKeySecret)     // 您的Access Key Secret
+		common.Credentials.Region,
+		common.Credentials.AccessKey,
+		common.Credentials.AccessKeySecret)
 	if err != nil {
-		// 异常处理
 		panic(err)
 	}
 
 	var token *dybaseapi.MessageTokenDTO
 
 	for {
-		if token == nil  {
-			// 创建API请求并设置参数
+		if token == nil {
 			request := dybaseapi.CreateQueryTokenForMnsQueueRequest()
 			request.MessageType = common.SMS_UP_MESSAGE_TYPE
 			request.QueueName = common.Credentials.SmsQueueName
-			// 发起请求并处理异常
 			response, err := client.QueryTokenForMnsQueue(request)
 			if err != nil {
-				// 异常处理
 				panic(err)
 			}
 
@@ -62,7 +67,6 @@ func main() {
 			fmt.Printf("err: %+v", err)
 			panic(err)
 		}
-		// fmt.Println(mnsResponse)
 
 		receiptHandles := make([]string, len(mnsResponse.Message))
 		for i, message := range mnsResponse.Message {
@@ -70,18 +74,26 @@ func main() {
 			if decodeErr != nil {
 				panic(decodeErr)
 			}
-			fmt.Println(string(messageBody))
+			messageBodyStr := string(messageBody)
+			fmt.Println(messageBodyStr)
 			receiptHandles[i] = message.ReceiptHandle
+			var queueRsp QueueResp
+			err := json.Unmarshal(messageBody, &queueRsp)
+			if err == nil && queueRsp.Content == "1" {
+				msgArr = append(msgArr, queueRsp.PhoneNumber)
+			}
 		}
+
 		if len(receiptHandles) > 0 {
 			mnsDeleteRequest := mns.CreateBatchDeleteMessageRequest()
 			mnsDeleteRequest.Domain = common.MNS_DOMAIN
 			mnsDeleteRequest.QueueName = common.Credentials.SmsQueueName
 			mnsDeleteRequest.SetReceiptHandles(receiptHandles)
-			//_, err = mnsClient.BatchDeleteMessage(mnsDeleteRequest) // 取消注释将删除队列中的消息
+			_, err = mnsClient.BatchDeleteMessage(mnsDeleteRequest) // 取消注释将删除队列中的消息
 			if err != nil {
 				panic(err)
 			}
 		}
+		return msgArr
 	}
 }

@@ -13,8 +13,27 @@ func HelloServer(query url.Values, body []byte, rsp *Rsp) {
 }
 
 func SmsHandler(query url.Values, body []byte, rsp *Rsp) {
-	//SendSms()
-	rsp.Data = "hello, world!\n"
+	resp, err := SendSms()
+	if err != nil {
+		rsp.Msg = "err when send sms"
+		rsp.Status = 400
+	} else {
+		rsp.Msg = "success"
+		rsp.Status = 200
+	}
+	rsp.Data = resp
+}
+
+func ReceiveSmsHandler(query url.Values, body []byte, rsp *Rsp) {
+	resp, err := SendReceiveSms()
+	if err != nil {
+		rsp.Msg = "err when send receive sms"
+		rsp.Status = 400
+	} else {
+		rsp.Msg = "success"
+		rsp.Status = 200
+	}
+	rsp.Data = resp
 }
 
 func AttendersHandler(query url.Values, body []byte, rsp *Rsp) {
