@@ -8,9 +8,9 @@ import (
 	"fmt"
 )
 
-var currentTimeUnix = time.Now().Unix()
-var currentTime = time.Unix(currentTimeUnix, 0)
+var currentTime = time.Unix(time.Now().Unix(), 0)
 var attendTimeStr = currentTime.Format("2006-01-02")
+var currentTimeUnix, _ = time.Parse("2006-01-02", attendTimeStr)
 
 var contactInfo = map[string]string{}
 
@@ -24,7 +24,7 @@ func ResolveInfo(receivedFlag bool, attenderResp AttenderResp) ([]string) {
 	}
 
 	for k, v := range attInfo {
-		if currentTimeUnix > attInfo[k].Timestamp {
+		if currentTimeUnix.Unix() > attInfo[k].Timestamp {
 			continue
 		} else {
 			// All hands
